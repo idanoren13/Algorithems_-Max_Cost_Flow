@@ -1,7 +1,9 @@
 #pragma once
 #include "LinkedList.h"
 #include <iostream>
-#include<list>
+#include <list>
+
+using namespace std;
 
 class item {
 public:
@@ -13,7 +15,6 @@ public:
 
 class Graph
 {
-	
 	LinkedList<item>* adjListArr;
 	int n;
 	int m;
