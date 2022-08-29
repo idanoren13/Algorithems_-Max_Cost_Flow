@@ -15,7 +15,7 @@ public:
 
 class Graph
 {
-	LinkedList<item>* adjListArr;
+	list<item>* adjListArr;
 	int n;
 	int m;
 
@@ -24,14 +24,14 @@ public:
 	~Graph() { delete[]  adjListArr; }
 
 	void set_m(int _m) { m = _m; }
-	const int get_n() { return n; }
-	const int get_m() { return m; }
+	const int getNumberOfVertices() { return n; }
+	const int getNumberOfEdges() { return m; }
 
 	void MakeEmptyGraph(int _n);
 	void RemoveEdge(int u, int v);
 	void AddEdge(int u, int v, int c);
 	bool is_adjacent(int u, int v);
-	LinkedList<item>* GetAdjList(int u);
+	list<item>* GetAdjList(int u);
 };
 
 
