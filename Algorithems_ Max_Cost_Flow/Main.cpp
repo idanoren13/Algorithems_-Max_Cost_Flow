@@ -7,14 +7,14 @@ struct Edge
 	int i;
 	int j;
 	int capacity;
-}
+};
 
 void Main()
 {
 	int n, m, s, t;
 	Edge edge;
 
-	cin << n << m << s << t;
+	cin >> n >> m >> s >> t;
 
 	Graph g;
 	g.MakeEmptyGraph(n);
@@ -30,7 +30,7 @@ void Main()
 
 		else
 		{
-			cout >> "input invalid";
+			cout << "input invalid";
 			exit(1);
 		}
 	}
@@ -39,7 +39,7 @@ void Main()
 Edge getNewEdge()
 {
 	Edge edge;
-	cin << edge.i << edge.j << edge.capacity;
+	cin >> edge.i >> edge.j >> edge.capacity;
 }
 
 bool checkEdgeValiation(Edge edge, int n)
