@@ -25,5 +25,9 @@ class Algorithems
 
 public:
 	void BFS(Graph g, int vertex);
+	void DijkstraVriation(Graph g, int s, int t);
+	void Dijkstra(Graph g, int wwight, int vertex);
+	Graph ResidualGraph(Graph g);
+
 };
 

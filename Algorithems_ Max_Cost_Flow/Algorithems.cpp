@@ -25,3 +25,37 @@ void Algorithems::BFS(Graph g, int vertex_s)
 		}
 	}
 }
+
+void Algorithems::DijkstraVriation(Graph g, int s, int t)
+{
+	Graph residualGraph = g;
+
+
+	//make graph siuri
+	//Dijkstra
+	//increase flow
+	//update siuri graph
+}
+
+void Algorithems::Dijkstra(Graph g, int wwight, int vertex)
+{
+
+}
+
+Graph Algorithems::ResidualGraph(Graph g)
+{
+	Graph residualGraph;
+
+	for (int i = 0; i < g.get_n(); i++)
+	{
+		for (item curr : g.get_adjListArr()[i]) {
+
+			if (curr.fullFlow() == false)
+			{
+				residualGraph.AddEdge(i, curr.vertex, curr.capacity - curr.flow);
+			}
+		}
+	}
+}
+
+

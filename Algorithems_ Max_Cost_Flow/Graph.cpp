@@ -36,6 +36,9 @@ void Graph::AddEdge(int u, int v, int c) {
 		return;
 	item new_item = item(v, c);
 	adjListArr[u].push_back(new_item);
+
+	item new_item = item(u, c);
+	adjListArr[v].push_back(new_item);
 }
 
 void Graph::RemoveEdge(int u, int v) {
@@ -50,4 +53,47 @@ void Graph::RemoveEdge(int u, int v) {
 	}
 
 	m -= 1;
+}
+
+bool Graph::IncreaseFlow(int u, int v, int flowToAdd)
+{
+	int vertexFlow, vertexCapacity;
+
+	for (item curr : adjListArr[u]) {
+		if (curr.vertex == v) {
+			
+			curr.flow += flowToAdd;
+			vertexFlow = curr.flow;
+		}
+	}
+
+	for (item curr : adjListArr[v]) { //f(v,u) = -f(u,v)
+		if (curr.vertex == u) {
+
+			decreaseFlow(v, u, vertexFlow);
+		}
+	}
+
+
+}
+
+bool Graph::decreaseFlow(int u, int v, int flowToSubtract)
+{
+	int vertexFlow, vertexCapacity;
+
+	for (item curr : adjListArr[u]) {
+		if (curr.vertex == v) {
+
+			if (curr.flow - flowToSubtract >= 0 )
+			{
+				curr.flow -= flowToSubtract;
+				if (curr.fullFlow == true)
+					curr.fullFlow = false;
+
+				return true;
+			}
+
+			return false;
+		}
+	}
 }

@@ -8,9 +8,11 @@ using namespace std;
 class item {
 public:
 	int vertex;
-	int weight;
-	item(int v, int w) : vertex(v), weight(w) {}
+	int capacity;
+	int flow = 0;
+	item(int v, int w) : vertex(v), capacity(w) {}
 	item() {}
+	bool fullFlow() { capacity == flow; }
 };
 
 class Graph
@@ -24,6 +26,9 @@ public:
 	~Graph() { delete[]  adjListArr; }
 
 	void set_m(int _m) { m = _m; }
+	int get_n() { return n; }
+	list<item>* get_adjListArr() { return adjListArr; }
+
 	const int getNumberOfVertices() { return n; }
 	const int getNumberOfEdges() { return m; }
 
@@ -32,6 +37,10 @@ public:
 	void AddEdge(int u, int v, int c);
 	bool is_adjacent(int u, int v);
 	list<item>* GetAdjList(int u);
+	bool IncreaseFlow(int u, int v, int flowToAdd);
+	bool decreaseFlow(int u, int v, int flowToSubtract)
+
+
 };
 
 
