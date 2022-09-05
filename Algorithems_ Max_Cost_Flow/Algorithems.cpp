@@ -1,4 +1,5 @@
 #include "Algorithems.h"
+#include "MaxHeap.h"
 
 void Algorithems::BFS(Graph g, int vertex_s)
 {
@@ -37,10 +38,47 @@ void Algorithems::DijkstraVriation(Graph g, int s, int t)
 	//update siuri graph
 }
 
-void Algorithems::Dijkstra(Graph g, int wwight, int vertex)
+void Algorithems::Dijkstra(Graph g, int wight, int vertexS)
 {
+	int n = g.get_n();
+	vector<int> d;
+
+	MaxHeap q(n);
+	d=init(vertexS,n);
+
+	while (!q.IsEmpty())
+	{
+		Vertex u = q.DeleteMax();
+
+		for (item v : g.get_adjListArr()[u.vertexNum])
+		{//relax
+			if (d[v.vertex] > d[u.vertexNum] + v.capacity)
+			{
+				d[v.vertex] = d[u.vertexNum] + v.capacity;
+				//q.??????????
+			}
+		}
+		
+	}
+	
 
 }
+vector<int> Algorithems::init(int vertexS, int size)
+{
+	vector<int> d(size);
+	for (int var : d)
+	{
+		if (var == vertexS)
+		{
+			d[vertexS] = 0;
+		}
+		else d[var] = -1; //=null
+	}
+
+	return d;
+}
+
+
 
 Graph Algorithems::ResidualGraph(Graph g)
 {
