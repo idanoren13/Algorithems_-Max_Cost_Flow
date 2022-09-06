@@ -1,31 +1,47 @@
 #include "Algorithems.h"
 #include "MaxHeap.h"
 
-void Algorithems::BFS(Graph g, int vertex_s)
+list<int> Algorithems::BFSPath(Graph &g, int s, int t)
 {
-	vector<DistanceItem> d(g.getNumberOfVertices());
-	queue<int> Q;
-	int u;
-
-
-	Q.push(vertex_s);
-	d[vertex_s - 1].setDistance(0);
-
-	while (!Q.empty())
+	//return a list of vertices that represent the shortest path from s to t
+	//return an empty list if no such path exists
+	//BFS
+	int n = g.get_n();
+	vector<bool> visited(n, false);
+	vector<int> parents(n, -1);
+	queue<int> q;
+	q.push(s);
+	visited[s] = true;
+	while (!q.empty())
 	{
-		u = Q.front();
-		Q.pop();
-
-		list<item> u_neighbors = *g.GetAdjList(u);
-		for (item neighbor : u_neighbors) {
-			if (d[neighbor.vertex].isInfinity())
+		int u = q.front();
+		q.pop();
+		list<item> adjList = *g.GetAdjList(u);
+		for (const item &v : adjList)
+		{
+			if (!visited[v.vertex] )
 			{
-				d[neighbor.vertex].setDistance(d[u].distance + 1);
-				Q.push(neighbor.vertex);
+				visited[v.vertex] = true;
+				parents[v.vertex] = u;
+				q.push(v.vertex);
 			}
 		}
 	}
+
+	list<int> path;
+	if (visited[t])
+	{
+		int curr = t;
+		while (curr != -1)
+		{
+			path.push_front(curr);
+			curr = parents[curr];
+		}
+	}
+
+	return path;
 }
+
 
 void Algorithems::DijkstraVriation(Graph g, int s, int t)
 {
@@ -63,6 +79,7 @@ void Algorithems::Dijkstra(Graph g, int wight, int vertexS)
 	
 
 }
+
 vector<int> Algorithems::init(int vertexS, int size)
 {
 	vector<int> d(size);
@@ -79,21 +96,14 @@ vector<int> Algorithems::init(int vertexS, int size)
 }
 
 
-
-Graph Algorithems::ResidualGraph(Graph g)
+int Algorithems::findMaxFlowBFSVariantion(Graph g, int s, int t)
 {
-	Graph residualGraph;
-
-	for (int i = 0; i < g.get_n(); i++)
-	{
-		for (item curr : g.get_adjListArr()[i]) {
-
-			if (curr.fullFlow() == false)
-			{
-				residualGraph.AddEdge(i, curr.vertex, curr.capacity - curr.flow);
-			}
-		}
-	}
+	
 }
 
+int Algorithems::minCapacity(Graph g, list<int> path)
+{
+	
+
+}
 

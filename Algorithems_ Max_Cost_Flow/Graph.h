@@ -24,6 +24,7 @@ class Graph
 public:
 	Graph(int _n = 0) : n(_n) { MakeEmptyGraph(n); }
 	~Graph() { delete[]  adjListArr; }
+	Graph(const Graph &g);
 
 	void set_m(int _m) { m = _m; }
 	int get_n() { return n; }
@@ -38,7 +39,7 @@ public:
 	bool is_adjacent(int u, int v);
 	list<item>* GetAdjList(int u);
 	bool IncreaseFlow(int u, int v, int flowToAdd);
-	bool decreaseFlow(int u, int v, int flowToSubtract)
+	bool decreaseFlow(int u, int v, int flowToSubtract);
 
 
 };

@@ -1,5 +1,16 @@
 #include "Graph.h"
 
+Graph::Graph(const Graph& g)
+{
+	n = g.n;
+	m = g.m;
+	adjListArr = new list<item>[n];
+	for (int i = 0; i < n; i++)
+	{
+		adjListArr[i] = g.adjListArr[i];
+	}
+}
+
 void Graph::MakeEmptyGraph(int _n) {
 	n = _n;
 	if (n < 0)
@@ -87,9 +98,6 @@ bool Graph::decreaseFlow(int u, int v, int flowToSubtract)
 			if (curr.flow - flowToSubtract >= 0 )
 			{
 				curr.flow -= flowToSubtract;
-				if (curr.fullFlow == true)
-					curr.fullFlow = false;
-
 				return true;
 			}
 

@@ -24,12 +24,17 @@ class Algorithems
 	};
 
 public:
+	list<int> BFSPath(Graph &g, int s, int t);
 	void BFS(Graph g, int vertex);
 	void DijkstraVriation(Graph g, int s, int t);
 	void Dijkstra(Graph g, int wight, int vertex);
 	Graph ResidualGraph(Graph g);
 	vector<int> init(int vertexS, int size);
 	void relax(int vertexS, int vertexV, vector<int> d);
+	Graph BFSVariation(Graph);
+	int findMaxFlowBFSVariantion(Graph g, int s, int t);
+
+	int minCapacity(Graph g, list<int> path);
 
 
 };
