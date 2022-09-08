@@ -29,6 +29,8 @@ public:
 	void set_m(int _m) { m = _m; }
 	int get_n() { return n; }
 	list<item>* get_adjListArr() { return adjListArr; }
+	int getEdgeWeight(int u, int v);
+
 
 	const int getNumberOfVertices() { return n; }
 	const int getNumberOfEdges() { return m; }

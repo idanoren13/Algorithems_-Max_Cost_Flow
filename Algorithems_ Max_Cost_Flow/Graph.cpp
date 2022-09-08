@@ -48,7 +48,7 @@ void Graph::AddEdge(int u, int v, int c) {
 	item new_item = item(v, c);
 	adjListArr[u].push_back(new_item);
 
-	item new_item = item(u, c);
+	new_item = item(u, c);
 	adjListArr[v].push_back(new_item);
 }
 
@@ -102,6 +102,16 @@ bool Graph::decreaseFlow(int u, int v, int flowToSubtract)
 			}
 
 			return false;
+		}
+	}
+}
+
+int Graph::getEdgeWeight(int u, int v)
+{
+	for (item curr : adjListArr[u]) {
+		if (curr.vertex == v) {
+			
+			return curr.capacity;
 		}
 	}
 }

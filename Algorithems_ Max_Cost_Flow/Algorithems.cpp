@@ -43,39 +43,88 @@ list<int> Algorithems::BFSPath(Graph &g, int s, int t)
 }
 
 
-void Algorithems::DijkstraVriation(Graph g, int s, int t)
+int Algorithems::DijkstraVriation(Graph g, int s, int t, vector<bool>& minCut)
 {
+	int n = g.get_n(), flow, maxFlow=0;
+	int i = t-1;
+	int parent;
 	Graph residualGraph = g;
+	vector<int> p(n);
+	
 
+	while (Dijkstra(residualGraph, s, t, p))
+	{
+		flow = findMaxFlow(residualGraph, p, t);
+		maxFlow += flow;
 
-	//make graph siuri
-	//Dijkstra
-	//increase flow
-	//update siuri graph
+		while (p[i] != -1)
+		{
+			parent = p[i];
+			residualGraph.IncreaseFlow(parent, p[i], flow);
+			residualGraph.decreaseFlow(p[i], parent, residualGraph.getEdgeWeight(parent, p[i]));
+
+			i = parent;
+		}
+	}
+	//minCut = findMinCutBFS(Gf, s, t, parent);
+	return maxFlow;
 }
 
-void Algorithems::Dijkstra(Graph g, int wight, int vertexS)
+int Algorithems::findMaxFlow(Graph g, vector<int> path, int t)
+{
+	int findMaxFlow= INT8_MAX, i=t-1, parent, weight;
+
+	while (path[i]!=-1)
+	{
+		parent = path[i];
+		weight = g.getEdgeWeight(parent, i);
+		if (findMaxFlow > weight)
+		{
+			findMaxFlow = weight;
+		}
+		i = parent;
+	}
+
+	return findMaxFlow;
+}
+bool Algorithems::Dijkstra(Graph g, int s, int t, vector<int>& parent) // pair = first d[], second: num of vertex
 {
 	int n = g.get_n();
+	int i = s - 1;
 	vector<int> d;
 
-	MaxHeap q(n);
-	d=init(vertexS,n);
+	priority_queue< pair <int,int>> Q;
+	d=init(s,n);
 
-	while (!q.IsEmpty())
+	pair<int, int> p;
+	p.first = d[i];
+	p.second = i;
+
+	Q.push(p);
+
+	while (!Q.empty())
 	{
-		Vertex u = q.DeleteMax();
+		pair <int, int> u = Q.top();
+		Q.pop();
 
-		for (item v : g.get_adjListArr()[u.vertexNum])
+		for (item v : g.get_adjListArr()[u.second])
 		{//relax
-			if (d[v.vertex] > d[u.vertexNum] + v.capacity)
+			if (d[v.vertex] < d[u.second] + v.capacity)
 			{
-				d[v.vertex] = d[u.vertexNum] + v.capacity;
-				//q.??????????
+				d[v.vertex] = d[u.second] + (v.capacity);
+				parent[v.vertex] = u.second;
+				p.first = d[v.vertex];
+				p.second = v.vertex;
+				Q.push(p);
 			}
 		}
-		
 	}
+
+	if (d[t] != -1)
+	{
+		return true;
+	}
+	return false;
 	
 
 }
@@ -98,12 +147,12 @@ vector<int> Algorithems::init(int vertexS, int size)
 
 int Algorithems::findMaxFlowBFSVariantion(Graph g, int s, int t)
 {
-	
+	return 0;
 }
 
 int Algorithems::minCapacity(Graph g, list<int> path)
 {
 	
-
+	return 0;
 }
 
