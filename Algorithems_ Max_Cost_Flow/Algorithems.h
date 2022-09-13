@@ -1,6 +1,6 @@
 #pragma once
 #include "Graph.h"
-#include "LinkedList.h"
+
 #include <iostream>
 #include <list>
 #include <vector>
@@ -24,7 +24,7 @@ class Algorithems
 	};
 
 public:
-	list<int> BFSPath(Graph &g, int s, int t);
+	vector<int> BFSPath(Graph &g, int s, int t);
 	void BFS(Graph g, int vertex);
 	int DijkstraVriation(Graph g, int s, int t, vector<bool>& minCut);
 	bool Dijkstra(Graph g, int s, int t, vector<int>& parent);
@@ -36,7 +36,9 @@ public:
 	int findMaxFlow(Graph g, vector<int> path, int t);
 
 
-	int minCapacity(Graph g, list<int> path);
+	int minCapacity(Graph g, vector<int> path);
+
+	void minCut(Graph Gf, list<int> path, list<int>& S, list<int>& T);
 
 
 };

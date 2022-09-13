@@ -1,7 +1,7 @@
 #include "Algorithems.h"
 #include "MaxHeap.h"
 
-list<int> Algorithems::BFSPath(Graph &g, int s, int t)
+vector<int> Algorithems::BFSPath(Graph& g, int s, int t)
 {
 	//return a list of vertices that represent the shortest path from s to t
 	//return an empty list if no such path exists
@@ -17,24 +17,26 @@ list<int> Algorithems::BFSPath(Graph &g, int s, int t)
 		int u = q.front();
 		q.pop();
 		list<item> adjList = *g.GetAdjList(u);
-		for (const item &v : adjList)
+		for (const item& v : adjList)
 		{
-			if (!visited[v.vertex] )
+			if (!visited[v.vertex])
 			{
 				visited[v.vertex] = true;
-				parents[v.vertex] = u;
-				q.push(v.vertex);
+				if (v.capacity > 0) {
+					parents[v.vertex] = u;
+					q.push(v.vertex);
+				}
 			}
 		}
 	}
 
-	list<int> path;
+	vector<int> path;
 	if (visited[t])
 	{
 		int curr = t;
 		while (curr != -1)
 		{
-			path.push_front(curr);
+			path.push_back(curr);
 			curr = parents[curr];
 		}
 	}
@@ -42,15 +44,14 @@ list<int> Algorithems::BFSPath(Graph &g, int s, int t)
 	return path;
 }
 
-
 int Algorithems::DijkstraVriation(Graph g, int s, int t, vector<bool>& minCut)
 {
-	int n = g.get_n(), flow, maxFlow=0;
-	int i = t-1;
+	int n = g.get_n(), flow, maxFlow = 0;
+	int i = t - 1;
 	int parent;
 	Graph residualGraph = g;
 	vector<int> p(n);
-	
+
 
 	while (Dijkstra(residualGraph, s, t, p))
 	{
@@ -72,9 +73,9 @@ int Algorithems::DijkstraVriation(Graph g, int s, int t, vector<bool>& minCut)
 
 int Algorithems::findMaxFlow(Graph g, vector<int> path, int t)
 {
-	int findMaxFlow= INT8_MAX, i=t-1, parent, weight;
+	int findMaxFlow = INT8_MAX, i = t - 1, parent, weight;
 
-	while (path[i]!=-1)
+	while (path[i] != -1)
 	{
 		parent = path[i];
 		weight = g.getEdgeWeight(parent, i);
@@ -87,14 +88,15 @@ int Algorithems::findMaxFlow(Graph g, vector<int> path, int t)
 
 	return findMaxFlow;
 }
+
 bool Algorithems::Dijkstra(Graph g, int s, int t, vector<int>& parent) // pair = first d[], second: num of vertex
 {
 	int n = g.get_n();
 	int i = s - 1;
 	vector<int> d;
 
-	priority_queue< pair <int,int>> Q;
-	d=init(s,n);
+	priority_queue< pair <int, int>> Q;
+	d = init(s, n);
 
 	pair<int, int> p;
 	p.first = d[i];
@@ -120,12 +122,14 @@ bool Algorithems::Dijkstra(Graph g, int s, int t, vector<int>& parent) // pair =
 		}
 	}
 
-	if (d[t] != -1)
-	{
-		return true;
-	}
-	return false;
-	
+	//if (d[t] != -1)
+	//{
+	//	return true;
+	//}
+	//return false;
+
+	return d[t] != -1;
+
 
 }
 
@@ -147,12 +151,54 @@ vector<int> Algorithems::init(int vertexS, int size)
 
 int Algorithems::findMaxFlowBFSVariantion(Graph g, int s, int t)
 {
-	return 0;
+	int n = g.get_n(), flow, maxFlow = 0;
+	int i = t - 1;
+	int parent;
+	Graph residualGraph = g;
+	vector<int> path;
+
+	do
+	{
+		path = BFSPath(residualGraph, s, t);
+		flow = minCapacity(residualGraph, path);
+		maxFlow += flow;
+
+		parent = path[i];
+		for (int i = 0; i < path.size() - 2; i++) {
+			g.decCapacity(path[i], path[i + 1], flow);
+		}
+		//while (path[i] != -1)
+		//{
+		//	residualGraph.IncreaseFlow(parent, path[i], flow);
+		//	//residualGraph.decreaseFlow(path[i], parent, residualGraph.getEdgeWeight(parent, path[i]));
+
+		//	i = parent;
+		//}
+
+	} while (path.size() > 0);
+	//minCut = findMinCutBFS(Gf, s, t, parent);
+	return maxFlow;
 }
 
-int Algorithems::minCapacity(Graph g, list<int> path)
+int Algorithems::minCapacity(Graph g, vector<int> path)
 {
-	
-	return 0;
+	int t = path[path.size() - 1];
+	int minCap = 0;
+	if (path.size() > 0)
+	{
+		minCap = g.getEdgeWeight(path[0], path[1]);
+	}
+	for (int i = 0; i < path.size() - 2; i++)
+	{
+		if (minCap > g.getEdgeWeight(path[i], path[i + 1]))
+		{
+			minCap = g.getEdgeWeight(path[i], path[i + 1]);
+		}
+	}
+
+	return minCap;
+}
+
+void Algorithems::minCut(Graph Gf, list<int> path, list<int>& S, list<int>& T) {
 }
 

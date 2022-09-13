@@ -1,7 +1,7 @@
 #pragma once
-#include "LinkedList.h"
 #include <iostream>
 #include <list>
+
 
 using namespace std;
 
@@ -12,7 +12,7 @@ public:
 	int flow = 0;
 	item(int v, int w) : vertex(v), capacity(w) {}
 	item() {}
-	bool fullFlow() { capacity == flow; }
+	bool fullFlow() { return capacity == flow; }
 };
 
 class Graph
@@ -23,7 +23,7 @@ class Graph
 
 public:
 	Graph(int _n = 0) : n(_n) { MakeEmptyGraph(n); }
-	~Graph() { delete[]  adjListArr; }
+	//~Graph() { delete[]  adjListArr; }
 	Graph(const Graph &g);
 
 	void set_m(int _m) { m = _m; }
@@ -31,6 +31,7 @@ public:
 	list<item>* get_adjListArr() { return adjListArr; }
 	int getEdgeWeight(int u, int v);
 
+	void decCapacity(int u, int v, int capacity);
 
 	const int getNumberOfVertices() { return n; }
 	const int getNumberOfEdges() { return m; }

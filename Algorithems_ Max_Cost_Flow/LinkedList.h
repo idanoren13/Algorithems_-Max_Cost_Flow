@@ -1,4 +1,6 @@
 #pragma once
+using namespace std;
+
 template<class T>
 class Node {
 public:
@@ -24,7 +26,7 @@ public:
 		return head == tail;
 	}
 
-	void insert_to_end(T& item) {
+	void push_back(T& item) {
 		Node<T>* node = new Node<T>(item);
 		if (is_empty())
 			head->next = node;
@@ -32,12 +34,16 @@ public:
 		tail = node;
 	}
 
-	void delete_after(Node<T>* node) {
-		Node<T>* temp = node->next;
-		node->next = node->next->next;
-		if (temp == tail)
-			tail = node;
+	void remove(<T> data) {
+		Node<T>* temp = head;
+		Node<T>* prev;
+		while (head->data != data)
+		{
+			prev = head;
+			head = head->next;
+		}
 
+		prev->next = temp->next;
 		delete temp;
 	}
 
@@ -49,4 +55,6 @@ public:
 			curr = next;
 		}
 	}
+
+	
 };

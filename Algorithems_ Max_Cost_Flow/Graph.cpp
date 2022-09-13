@@ -2,8 +2,10 @@
 
 Graph::Graph(const Graph& g)
 {
+	this->MakeEmptyGraph()
 	n = g.n;
 	m = g.m;
+	
 	adjListArr = new list<item>[n];
 	for (int i = 0; i < n; i++)
 	{
@@ -48,8 +50,8 @@ void Graph::AddEdge(int u, int v, int c) {
 	item new_item = item(v, c);
 	adjListArr[u].push_back(new_item);
 
-	new_item = item(u, c);
-	adjListArr[v].push_back(new_item);
+	//new_item = item(u, c);
+	//adjListArr[v].push_back(new_item);
 }
 
 void Graph::RemoveEdge(int u, int v) {
@@ -85,7 +87,6 @@ bool Graph::IncreaseFlow(int u, int v, int flowToAdd)
 		}
 	}
 
-
 }
 
 bool Graph::decreaseFlow(int u, int v, int flowToSubtract)
@@ -112,6 +113,21 @@ int Graph::getEdgeWeight(int u, int v)
 		if (curr.vertex == v) {
 			
 			return curr.capacity;
+		}
+	}
+}
+
+void Graph::decCapacity(int u, int v, int capacity)
+{
+	for (item it : adjListArr[u]) {
+		if (it.vertex == v)
+		{
+			it.capacity -= capacity;
+			if (it.capacity < 0)
+			{
+				it.capacity = 0;
+			}
+			break;
 		}
 	}
 }
