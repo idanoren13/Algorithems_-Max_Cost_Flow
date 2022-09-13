@@ -3,9 +3,24 @@
 
 vector<int> Algorithems::BFSPath(Graph& g, int s, int t)
 {
-	//return a list of vertices that represent the shortest path from s to t
-	//return an empty list if no such path exists
-	//BFS
+	vector<bool> visited;
+	vector<int> path;
+	vector<int> parents = BFS(g, s, t, visited);
+	if (visited[t])
+	{
+		int curr = t;
+		while (curr != -1)
+		{
+			path.insert(path.begin(), curr);
+			curr = parents[curr];
+		}
+	}
+
+	return path;
+}
+
+vector<int> Algorithems::BFS(Graph& g, int s, int t, vector<bool>& _visited)
+{
 	int n = g.get_n();
 	vector<bool> visited(n, false);
 	vector<int> parents(n, -1);
@@ -29,19 +44,8 @@ vector<int> Algorithems::BFSPath(Graph& g, int s, int t)
 		}
 	}
 
-	vector<int> path;
-	if (visited[t])
-	{
-		int curr = t;
-		while (curr != -1)
-		{
-			path.insert(path.begin(), curr);
-			//path.push_back(curr);
-			curr = parents[curr];
-		}
-	}
-
-	return path;
+	_visited = visited;
+	return parents;
 }
 
 int Algorithems::DijkstraVriation(Graph g, int s, int t, vector<bool>& minCut)
@@ -149,7 +153,7 @@ vector<int> Algorithems::init(int vertexS, int size)
 }
 
 
-int Algorithems::findMaxFlowBFSVariantion(Graph& g, int s, int t)
+maxFlowAndMinCuts Algorithems::findMaxFlowBFSVariantion(Graph& g, int s, int t)
 {
 	int n = g.get_n(), flow, maxFlow = 0;
 	int i = t - 1;
@@ -169,8 +173,11 @@ int Algorithems::findMaxFlowBFSVariantion(Graph& g, int s, int t)
 			}
 		}
 	} while (path.size() > 0);
-	//minCut = findMinCutBFS(Gf, s, t, parent);
-	return maxFlow;
+
+	maxFlowAndMinCuts res = minCut(residualGraph, s, t);
+	res.maxFlow = maxFlow;
+
+	return res;
 }
 
 int Algorithems::minCapacity(Graph& g, vector<int> path)
@@ -192,6 +199,17 @@ int Algorithems::minCapacity(Graph& g, vector<int> path)
 	return minCap;
 }
 
-//void Algorithems::minCut(Graph Gf, LinkedList<int> path, LinkedList<int>& S, LinkedList<int>& T) {
-//}
+maxFlowAndMinCuts Algorithems::minCut(Graph& Gf, int s, int t)
+{
+	vector<int> S, T;
+	vector<bool> visited(Gf.get_n(), false);
+	vector<int> parents = BFS(Gf, s, t, visited);
+	S.push_back(s);
+	for (int i = 1; i < Gf.get_n(); i++) {
+		parents[i] != -1 ? S.push_back(i + 1) : T.push_back(i + 1);
+	}
+
+	return { 0,S,T };
+}
+
 

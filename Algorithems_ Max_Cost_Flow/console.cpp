@@ -26,7 +26,7 @@ void console::run() {
 
 	Algorithems algo;
 
-	int a1 = algo.findMaxFlowBFSVariantion(g, s, t);
+	int a1 = algo.findMaxFlowBFSVariantion(g, s, t).maxFlow;
 
 	cout << a1;
 }
