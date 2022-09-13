@@ -2,14 +2,17 @@
 
 Graph::Graph(const Graph& g)
 {
-	this->MakeEmptyGraph()
+	//for (int i = 0; i < n; i++)
+	//{
+	//	adjListArr[i].clear();
+	//}
 	n = g.n;
 	m = g.m;
-	
-	adjListArr = new list<item>[n];
+
+	//adjListArr = vector<LinkedList<item>>();
 	for (int i = 0; i < n; i++)
 	{
-		adjListArr[i] = g.adjListArr[i];
+		adjListArr.push_back(g.adjListArr[i]);
 	}
 }
 
@@ -17,17 +20,14 @@ void Graph::MakeEmptyGraph(int _n) {
 	n = _n;
 	if (n < 0)
 		return;
-
-	else if (n == 0)
-		adjListArr = nullptr;
-
 	else
-		adjListArr = new list<item>[n + 1];
+		adjListArr = vector<LinkedList<item>>(n);
+
 }
 
 bool Graph::is_adjacent(int u, int v) {
 	if (u > 0 && u <= n) {
-		for (item curr : adjListArr[u]) {
+		for (item& curr : adjListArr[u]) {
 			if (curr.vertex == v)
 				return true;
 		}
@@ -36,20 +36,18 @@ bool Graph::is_adjacent(int u, int v) {
 	return false;
 }
 
-list<item>* Graph::GetAdjList(int u) {
-	list<item>* res = nullptr;
-	if (u > 0 && u <= n)
-		res = &adjListArr[u];
+LinkedList<item> Graph::GetAdjList(int u) {
+	
+		return adjListArr[u];
 
-	return res;
 }
 
 void Graph::AddEdge(int u, int v, int c) {
-	if (u <= 0 || u > n || v <= 0 || v > n)
-		return;
+	//if (u < 0 || u > n || v < 0 || v > n)
+	//	return;
 	item new_item = item(v, c);
 	adjListArr[u].push_back(new_item);
-
+	m++;
 	//new_item = item(u, c);
 	//adjListArr[v].push_back(new_item);
 }
@@ -58,14 +56,15 @@ void Graph::RemoveEdge(int u, int v) {
 	if (u <= 0 || u > n || v <= 0 || v > n)
 		return;
 
-	for (item curr : adjListArr[u]) {
-		if (curr.vertex == v) {
-			adjListArr[u].remove(curr);
+	for (LinkedList<item>::Iterator it = adjListArr[u].begin(); it != adjListArr[u].end(); ++it) {
+		item temp = it.getData();
+		if (temp.vertex == v)
+		{
+			adjListArr[u].erase(it);
+			m -= 1;
 			return;
 		}
 	}
-
-	m -= 1;
 }
 
 bool Graph::IncreaseFlow(int u, int v, int flowToAdd)
@@ -74,7 +73,7 @@ bool Graph::IncreaseFlow(int u, int v, int flowToAdd)
 
 	for (item curr : adjListArr[u]) {
 		if (curr.vertex == v) {
-			
+
 			curr.flow += flowToAdd;
 			vertexFlow = curr.flow;
 		}
@@ -87,6 +86,7 @@ bool Graph::IncreaseFlow(int u, int v, int flowToAdd)
 		}
 	}
 
+	return true;
 }
 
 bool Graph::decreaseFlow(int u, int v, int flowToSubtract)
@@ -96,7 +96,7 @@ bool Graph::decreaseFlow(int u, int v, int flowToSubtract)
 	for (item curr : adjListArr[u]) {
 		if (curr.vertex == v) {
 
-			if (curr.flow - flowToSubtract >= 0 )
+			if (curr.flow - flowToSubtract >= 0)
 			{
 				curr.flow -= flowToSubtract;
 				return true;
@@ -111,7 +111,7 @@ int Graph::getEdgeWeight(int u, int v)
 {
 	for (item curr : adjListArr[u]) {
 		if (curr.vertex == v) {
-			
+
 			return curr.capacity;
 		}
 	}
@@ -119,7 +119,7 @@ int Graph::getEdgeWeight(int u, int v)
 
 void Graph::decCapacity(int u, int v, int capacity)
 {
-	for (item it : adjListArr[u]) {
+	for (item& it : adjListArr[u]) {
 		if (it.vertex == v)
 		{
 			it.capacity -= capacity;

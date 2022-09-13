@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-#include <list>
+#include "LinkedList.h"
+#include<vector>
 
 
 using namespace std;
@@ -17,18 +18,17 @@ public:
 
 class Graph
 {
-	list<item>* adjListArr;
+	vector<LinkedList<item>> adjListArr;
 	int n;
 	int m;
 
 public:
 	Graph(int _n = 0) : n(_n) { MakeEmptyGraph(n); }
-	//~Graph() { delete[]  adjListArr; }
 	Graph(const Graph &g);
 
 	void set_m(int _m) { m = _m; }
 	int get_n() { return n; }
-	list<item>* get_adjListArr() { return adjListArr; }
+	vector<LinkedList<item>> get_adjListArr() { return adjListArr; }
 	int getEdgeWeight(int u, int v);
 
 	void decCapacity(int u, int v, int capacity);
@@ -40,7 +40,7 @@ public:
 	void RemoveEdge(int u, int v);
 	void AddEdge(int u, int v, int c);
 	bool is_adjacent(int u, int v);
-	list<item>* GetAdjList(int u);
+	LinkedList<item> GetAdjList(int u);
 	bool IncreaseFlow(int u, int v, int flowToAdd);
 	bool decreaseFlow(int u, int v, int flowToSubtract);
 

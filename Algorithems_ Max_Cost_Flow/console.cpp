@@ -5,9 +5,9 @@ void console::run() {
 	Edge edge;
 	console cons;
 	cin >> n >> m >> s >> t;
-
-	Graph g;
-	g.MakeEmptyGraph(n);
+	s--; t--;
+	Graph g(n);
+	//g.MakeEmptyGraph(n);
 
 	for (int k = 0; k < m; k++)
 	{
@@ -23,4 +23,27 @@ void console::run() {
 			exit(1);
 		}
 	}
+
+	Algorithems algo;
+
+	int a1 = algo.findMaxFlowBFSVariantion(g, s, t);
+
+	cout << a1;
 }
+
+/*
+6
+10
+1
+6
+1 2 16
+1 3 13
+2 3 10
+3 2 4
+2 4 12
+4 3 9
+3 5 14
+5 4 7
+5 6 4
+4 6 20
+*/

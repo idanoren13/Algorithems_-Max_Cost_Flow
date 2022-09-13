@@ -4,7 +4,7 @@
 using namespace std;
 
 
- void Main()
+ void main()
 {
 	 console c;
 	 c.run();

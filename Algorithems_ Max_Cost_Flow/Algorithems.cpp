@@ -16,16 +16,15 @@ vector<int> Algorithems::BFSPath(Graph& g, int s, int t)
 	{
 		int u = q.front();
 		q.pop();
-		list<item> adjList = *g.GetAdjList(u);
+		LinkedList<item> adjList = g.GetAdjList(u);
 		for (const item& v : adjList)
 		{
-			if (!visited[v.vertex])
+			if (!visited[v.vertex] && v.capacity > 0)
 			{
 				visited[v.vertex] = true;
-				if (v.capacity > 0) {
-					parents[v.vertex] = u;
-					q.push(v.vertex);
-				}
+				parents[v.vertex] = u;
+				q.push(v.vertex);
+
 			}
 		}
 	}
@@ -36,7 +35,8 @@ vector<int> Algorithems::BFSPath(Graph& g, int s, int t)
 		int curr = t;
 		while (curr != -1)
 		{
-			path.push_back(curr);
+			path.insert(path.begin(), curr);
+			//path.push_back(curr);
 			curr = parents[curr];
 		}
 	}
@@ -149,7 +149,7 @@ vector<int> Algorithems::init(int vertexS, int size)
 }
 
 
-int Algorithems::findMaxFlowBFSVariantion(Graph g, int s, int t)
+int Algorithems::findMaxFlowBFSVariantion(Graph& g, int s, int t)
 {
 	int n = g.get_n(), flow, maxFlow = 0;
 	int i = t - 1;
@@ -160,27 +160,20 @@ int Algorithems::findMaxFlowBFSVariantion(Graph g, int s, int t)
 	do
 	{
 		path = BFSPath(residualGraph, s, t);
-		flow = minCapacity(residualGraph, path);
-		maxFlow += flow;
+		if (path.size() > 0) {
+			flow = minCapacity(residualGraph, path);
+			maxFlow += flow;
 
-		parent = path[i];
-		for (int i = 0; i < path.size() - 2; i++) {
-			g.decCapacity(path[i], path[i + 1], flow);
+			for (int i = 0; i < path.size() - 1; i++) {
+				residualGraph.decCapacity(path[i], path[i + 1], flow);
+			}
 		}
-		//while (path[i] != -1)
-		//{
-		//	residualGraph.IncreaseFlow(parent, path[i], flow);
-		//	//residualGraph.decreaseFlow(path[i], parent, residualGraph.getEdgeWeight(parent, path[i]));
-
-		//	i = parent;
-		//}
-
 	} while (path.size() > 0);
 	//minCut = findMinCutBFS(Gf, s, t, parent);
 	return maxFlow;
 }
 
-int Algorithems::minCapacity(Graph g, vector<int> path)
+int Algorithems::minCapacity(Graph& g, vector<int> path)
 {
 	int t = path[path.size() - 1];
 	int minCap = 0;
@@ -188,7 +181,7 @@ int Algorithems::minCapacity(Graph g, vector<int> path)
 	{
 		minCap = g.getEdgeWeight(path[0], path[1]);
 	}
-	for (int i = 0; i < path.size() - 2; i++)
+	for (int i = 0; i < path.size() - 1; i++)
 	{
 		if (minCap > g.getEdgeWeight(path[i], path[i + 1]))
 		{
@@ -199,6 +192,6 @@ int Algorithems::minCapacity(Graph g, vector<int> path)
 	return minCap;
 }
 
-void Algorithems::minCut(Graph Gf, list<int> path, list<int>& S, list<int>& T) {
-}
+//void Algorithems::minCut(Graph Gf, LinkedList<int> path, LinkedList<int>& S, LinkedList<int>& T) {
+//}
 

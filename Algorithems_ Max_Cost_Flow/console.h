@@ -1,5 +1,6 @@
 #pragma once
 #include"Graph.h"
+#include"Algorithems.h"
 class console
 {
 public:
@@ -14,6 +15,8 @@ public:
 	{
 		Edge edge;
 		cin >> edge.i >> edge.j >> edge.capacity;
+		edge.i--;
+		edge.j--;
 		return edge;
 	}
 
@@ -28,6 +31,7 @@ public:
 
 		return valid;
 	}
+
 	void run();
 };
 

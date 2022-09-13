@@ -24,7 +24,7 @@ class Algorithems
 	};
 
 public:
-	vector<int> BFSPath(Graph &g, int s, int t);
+	vector<int> BFSPath(Graph& g, int s, int t);
 	void BFS(Graph g, int vertex);
 	int DijkstraVriation(Graph g, int s, int t, vector<bool>& minCut);
 	bool Dijkstra(Graph g, int s, int t, vector<int>& parent);
@@ -32,13 +32,13 @@ public:
 	vector<int> init(int vertexS, int size);
 	void relax(int vertexS, int vertexV, vector<int> d);
 	Graph BFSVariation(Graph);
-	int findMaxFlowBFSVariantion(Graph g, int s, int t);
+	int findMaxFlowBFSVariantion(Graph &g, int s, int t);
 	int findMaxFlow(Graph g, vector<int> path, int t);
 
 
-	int minCapacity(Graph g, vector<int> path);
+	int minCapacity( Graph& g, vector<int> path);
 
-	void minCut(Graph Gf, list<int> path, list<int>& S, list<int>& T);
+	//void minCut(Graph Gf, LinkedList<int> path, LinkedList<int>& S, LinkedList<int>& T);
 
 
 };
