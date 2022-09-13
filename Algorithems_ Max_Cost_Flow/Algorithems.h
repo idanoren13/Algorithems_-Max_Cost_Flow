@@ -20,12 +20,11 @@ public:
 	
 	vector<int> BFSPath(Graph& g, int s, int t);
 	vector<int> BFS(Graph& g, int s, int t, vector<bool> &visited);
-	int DijkstraVriation(Graph g, int s, int t, vector<bool>& minCut);
-	bool Dijkstra(Graph g, int s, int t, vector<int>& parent);
+	maxFlowAndMinCuts DijkstraVriation(Graph g, int s, int t);
+	bool Dijkstra(Graph& g, int s, int t, vector<int>& parent);
 	Graph ResidualGraph(Graph g);
 	vector<int> init(int vertexS, int size);
 	void relax(int vertexS, int vertexV, vector<int> d);
-	Graph BFSVariation(Graph);
 	maxFlowAndMinCuts findMaxFlowBFSVariantion(Graph &g, int s, int t);
 	int findMaxFlow(Graph g, vector<int> path, int t);
 

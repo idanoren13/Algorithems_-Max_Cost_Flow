@@ -76,22 +76,32 @@ bool Graph::IncreaseFlow(int u, int v, int flowToAdd)
 
 			curr.flow += flowToAdd;
 			vertexFlow = curr.flow;
+			vertexCapacity = curr.capacity;
+			break;
 		}
 	}
 
-	for (item curr : adjListArr[v]) { //f(v,u) = -f(u,v)
-		if (curr.vertex == u) {
-
-			decreaseFlow(v, u, vertexFlow);
+	bool found = false;
+	for (item& curr : adjListArr[v]) { //f(v,u) = -f(u,v)
+		if (curr.vertex == u) {	
+			found = true;
+			break;
 		}
 	}
+
+	if (!found)
+	{
+		AddEdge(v, u, vertexCapacity);
+	}
+
+	decreaseFlow(v, u, vertexFlow);
 
 	return true;
 }
 
 bool Graph::decreaseFlow(int u, int v, int flowToSubtract)
 {
-	int vertexFlow, vertexCapacity;
+	//int vertexFlow, vertexCapacity;
 
 	for (item curr : adjListArr[u]) {
 		if (curr.vertex == v) {
@@ -109,7 +119,7 @@ bool Graph::decreaseFlow(int u, int v, int flowToSubtract)
 
 int Graph::getEdgeWeight(int u, int v)
 {
-	for (item curr : adjListArr[u]) {
+	for (item &curr : adjListArr[u]) {
 		if (curr.vertex == v) {
 
 			return curr.capacity;

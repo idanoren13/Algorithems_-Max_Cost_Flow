@@ -6,7 +6,7 @@ using namespace std;
 static struct Vertex
 {
 	int vertexNum;
-	int shortestPathWeight;
+	int Weight;
 };
 
 class MaxHeap

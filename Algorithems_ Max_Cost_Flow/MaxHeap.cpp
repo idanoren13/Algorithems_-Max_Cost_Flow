@@ -27,7 +27,7 @@ void MaxHeap::Insert(Vertex newVertex)
 	int i = heapSize;
 	heapSize++;
 
-	while ((i>0) && data[Parent(i)].shortestPathWeight > newVertex.shortestPathWeight)
+	while ((i>0) && data[Parent(i)].Weight > newVertex.Weight)
 	{
 		data[i] = data[Parent(i)];
 		i = Parent(i);
@@ -103,7 +103,7 @@ void MaxHeap::FixHeap(int index)//fixes heap that has node as a root
 	int right = Right(index);
 
 	// find minimum among node left and right
-	if (left < heapSize && (data[left].shortestPathWeight > data[index].shortestPathWeight))
+	if (left < heapSize && (data[left].Weight > data[index].Weight))
 	{
 		max = left;
 	}
@@ -112,7 +112,7 @@ void MaxHeap::FixHeap(int index)//fixes heap that has node as a root
 		max = index;
 	}
 		
-	if (right < heapSize && data[right].shortestPathWeight > data[max].shortestPathWeight)
+	if (right < heapSize && data[right].Weight > data[max].Weight)
 	{
 		max = right;
 	}
@@ -129,8 +129,8 @@ void MaxHeap::Swap(Vertex& vertex1, Vertex& vertex2)
 	Vertex temp;
 
 	temp = vertex1;
-	vertex1.shortestPathWeight = vertex2.shortestPathWeight;
+	vertex1.Weight = vertex2.Weight;
 	vertex1.vertexNum = vertex2.vertexNum;
-	vertex2.shortestPathWeight = temp.shortestPathWeight;
+	vertex2.Weight = temp.Weight;
 	vertex2.vertexNum = temp.vertexNum;
 }

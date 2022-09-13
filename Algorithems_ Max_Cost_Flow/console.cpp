@@ -26,9 +26,9 @@ void console::run() {
 
 	Algorithems algo;
 
-	int a1 = algo.findMaxFlowBFSVariantion(g, s, t).maxFlow;
-
-	cout << a1;
+	//int a1 = algo.findMaxFlowBFSVariantion(g, s, t).maxFlow;
+	int a2 = algo.DijkstraVriation(g, s, t).maxFlow;
+	cout << a2;
 }
 
 /*

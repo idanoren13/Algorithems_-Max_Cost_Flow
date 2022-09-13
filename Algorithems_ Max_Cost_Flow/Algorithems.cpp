@@ -48,31 +48,34 @@ vector<int> Algorithems::BFS(Graph& g, int s, int t, vector<bool>& _visited)
 	return parents;
 }
 
-int Algorithems::DijkstraVriation(Graph g, int s, int t, vector<bool>& minCut)
+maxFlowAndMinCuts Algorithems::DijkstraVriation(Graph g, int s, int t)
 {
 	int n = g.get_n(), flow, maxFlow = 0;
 	int i = t - 1;
 	int parent;
 	Graph residualGraph = g;
-	vector<int> p(n);
+	vector<int> parents(n);
 
-
-	while (Dijkstra(residualGraph, s, t, p))
+	while (Dijkstra(residualGraph, s, t, parents))
 	{
-		flow = findMaxFlow(residualGraph, p, t);
+		flow = findMaxFlow(residualGraph, parents, t);
 		maxFlow += flow;
 
-		while (p[i] != -1)
+		while (parents[i] != -1)
 		{
-			parent = p[i];
-			residualGraph.IncreaseFlow(parent, p[i], flow);
-			residualGraph.decreaseFlow(p[i], parent, residualGraph.getEdgeWeight(parent, p[i]));
+			parent = parents[i];
+			residualGraph.IncreaseFlow(parent, parents[i], flow);
+			residualGraph.decreaseFlow(parents[i], parent, residualGraph.getEdgeWeight(parent, parents[i]));
 
 			i = parent;
 		}
 	}
 	//minCut = findMinCutBFS(Gf, s, t, parent);
-	return maxFlow;
+	/*return maxFlow;*/
+	maxFlowAndMinCuts res = minCut(residualGraph, s, t);
+	res.maxFlow = maxFlow;
+
+	return res;
 }
 
 int Algorithems::findMaxFlow(Graph g, vector<int> path, int t)
@@ -93,25 +96,25 @@ int Algorithems::findMaxFlow(Graph g, vector<int> path, int t)
 	return findMaxFlow;
 }
 
-bool Algorithems::Dijkstra(Graph g, int s, int t, vector<int>& parent) // pair = first d[], second: num of vertex
+bool Algorithems::Dijkstra(Graph& g, int s, int t, vector<int>& parent) // pair = first d[], second: num of vertex
 {
 	int n = g.get_n();
 	int i = s - 1;
 	vector<int> d;
 
-	priority_queue< pair <int, int>> Q;
+	priority_queue< pair <int, int>> priority_Q;
 	d = init(s, n);
 
 	pair<int, int> p;
 	p.first = d[i];
 	p.second = i;
 
-	Q.push(p);
+	priority_Q.push(p);
 
-	while (!Q.empty())
+	while (!priority_Q.empty())
 	{
-		pair <int, int> u = Q.top();
-		Q.pop();
+		pair <int, int> u = priority_Q.top();
+		priority_Q.pop();
 
 		for (item v : g.get_adjListArr()[u.second])
 		{//relax
@@ -121,20 +124,13 @@ bool Algorithems::Dijkstra(Graph g, int s, int t, vector<int>& parent) // pair =
 				parent[v.vertex] = u.second;
 				p.first = d[v.vertex];
 				p.second = v.vertex;
-				Q.push(p);
+				priority_Q.push(p);
 			}
 		}
 	}
 
-	//if (d[t] != -1)
-	//{
-	//	return true;
-	//}
-	//return false;
 
 	return d[t] != -1;
-
-
 }
 
 vector<int> Algorithems::init(int vertexS, int size)
