@@ -99,15 +99,13 @@ int Algorithems::findMaxFlow(Graph g, vector<int> path, int t)
 bool Algorithems::Dijkstra(Graph& g, int s, int t, vector<int>& parent) // pair = first d[], second: num of vertex
 {
 	int n = g.get_n();
-	int i = s - 1;
+	int i = s;
 	vector<int> d;
 
 	priority_queue< pair <int, int>> priority_Q;
 	d = init(s, n);
 
-	pair<int, int> p;
-	p.first = d[i];
-	p.second = i;
+	pair<int, int> p(d[i],i);
 
 	priority_Q.push(p);
 
@@ -115,8 +113,8 @@ bool Algorithems::Dijkstra(Graph& g, int s, int t, vector<int>& parent) // pair 
 	{
 		pair <int, int> u = priority_Q.top();
 		priority_Q.pop();
-
-		for (item v : g.get_adjListArr()[u.second])
+		
+		for (item& v : g.GetAdjList(u.second))
 		{//relax
 			if (d[v.vertex] < d[u.second] + v.capacity)
 			{
