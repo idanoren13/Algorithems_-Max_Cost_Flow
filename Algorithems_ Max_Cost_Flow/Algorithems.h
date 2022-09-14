@@ -1,6 +1,6 @@
 #pragma once
 #include "Graph.h"
-
+#include <algorithm>
 #include <iostream>
 #include <list>
 #include <vector>
@@ -20,7 +20,7 @@ public:
 
 	vector<int> BFSPath(Graph& g, int s, int t);
 	vector<int> BFS(Graph& g, int s, int t, vector<bool>& visited);
-	vector<int> DijkstarPath(Graph& g, int s, int t);
+	vector<int> DijkstraPath(Graph& g, int s, int t);
 	maxFlowAndMinCuts DijkstraVriation(Graph& g, int s, int t);
 	vector<int> Dijkstra(Graph& g, int s, int t, vector<bool>& visited);
 	Graph ResidualGraph(Graph g);

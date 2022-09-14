@@ -133,11 +133,30 @@ void Graph::decCapacity(int u, int v, int capacity)
 		if (it.vertex == v)
 		{
 			it.capacity -= capacity;
+			if (it.capacity <= 0)
+			{
+				it.capacity = 0;
+			}
+
+			break;
+		}
+	}
+	
+	/*bool found = false;
+	for (item& it : adjListArr[v]) {
+		if (it.vertex == u)
+		{
+			it.capacity += capacity;
 			if (it.capacity < 0)
 			{
 				it.capacity = 0;
 			}
+
 			break;
 		}
 	}
+
+	if (!found) {
+		AddEdge(v, u, capacity);
+	}*/
 }

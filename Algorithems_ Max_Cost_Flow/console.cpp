@@ -8,6 +8,10 @@ void console::run() {
 	s--; t--;
 	Graph g(n);
 	//g.MakeEmptyGraph(n);
+	if (n < 0 || m < 0 || s < 0 || t < 0) {
+		cout << "invalid input";
+		exit(1);
+	}
 
 	for (int k = 0; k < m; k++)
 	{
@@ -47,7 +51,7 @@ void console::run() {
 		}
 		else
 		{
-			cout << i << ",";
+			cout << i << ", ";
 		}
 	}
 	maxFlowAndMinCuts greedy = algo.DijkstraVriation(g, s, t);
@@ -71,10 +75,9 @@ void console::run() {
 		}
 		else
 		{
-			cout << i << ",";
+			cout << i << ", ";
 		}
 	}
-	//cout << a2;
 }
 
 /*

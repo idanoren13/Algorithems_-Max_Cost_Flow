@@ -48,7 +48,7 @@ vector<int> Algorithems::BFS(Graph& g, int s, int t, vector<bool>& _visited)
 	return parents;
 }
 
-vector<int> Algorithems::DijkstarPath(Graph& g, int s, int t) {
+vector<int> Algorithems::DijkstraPath(Graph& g, int s, int t) {
 	vector<bool> visited(g.get_n(), false);
 	vector<int> path;
 	vector<int> parents = Dijkstra(g, s, t, visited);
@@ -74,7 +74,7 @@ maxFlowAndMinCuts Algorithems::DijkstraVriation(Graph& g, int s, int t)
 
 	do
 	{
-		path = DijkstarPath(residualGraph, s, t);
+		path = DijkstraPath(residualGraph, s, t);
 		if (path.size() > 0 && path[0] == s) {
 			flow = minCapacity(residualGraph, path);
 			maxFlow += flow;
@@ -134,13 +134,11 @@ vector<int> Algorithems::Dijkstra(Graph& g, int s, int t, vector<bool>& visited)
 				{
 					d[v.vertex] = (v.capacity);
 					parent[v.vertex] = u.second;
-					/*if (!visited[v.vertex]) {*/
 					p = pair<int, int>(d[v.vertex], v.vertex);
 					priority_Q.push(p);
-					//visited[v.vertex] = true;
-					//}
 				}
 			}
+
 			visited[u.second] = true;
 		}
 	}
@@ -180,6 +178,7 @@ maxFlowAndMinCuts Algorithems::findMaxFlowBFSVariantion(Graph& g, int s, int t)
 			maxFlow += flow;
 
 			for (int i = 0; i < path.size() - 1; i++) {
+				//residualGraph.IncreaseFlow(path[i], path[i + 1], flow);
 				residualGraph.decCapacity(path[i], path[i + 1], flow);
 			}
 		}
@@ -215,14 +214,15 @@ maxFlowAndMinCuts Algorithems::minCut(Graph& Gf, int s, int t)
 	vector<int> S, T;
 	vector<bool> visited(Gf.get_n(), false);
 	vector<int> parents = BFS(Gf, s, t, visited);
-	S.push_back(s);
-	for (int i = 1; i < Gf.get_n(); i++) {
-		parents[i] != -1 ? S.push_back(i + 1) : T.push_back(i + 1);
+	S.push_back(s + 1);
+	for (int i = 0; i < Gf.get_n(); i++) {
+		if (i != s) {
+			parents[i] != -1 ? S.push_back(i + 1) : T.push_back(i + 1);
+		}
 	}
+
+	sort(S.begin(), S.end());
+	sort(T.begin(), T.end());
 
 	return { 0,S,T };
 }
-
-//use dijkstra to find the max flow path from s to t
-
-

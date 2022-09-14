@@ -4,8 +4,9 @@
 using namespace std;
 
 
- void main()
+ int main()
 {
 	 console c;
 	 c.run();
+	 return 0;
 }

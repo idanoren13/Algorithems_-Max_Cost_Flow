@@ -52,5 +52,8 @@
     <Text Include="ex1.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="readme.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
