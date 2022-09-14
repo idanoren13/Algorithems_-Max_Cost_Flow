@@ -75,7 +75,7 @@ maxFlowAndMinCuts Algorithems::DijkstraVriation(Graph& g, int s, int t)
 	do
 	{
 		path = DijkstraPath(residualGraph, s, t);
-		if (path.size() > 0 && path[0] == s) {
+		if (path.size() > 0 && path[0] == s && path[path.size() - 1] == t) {
 			flow = minCapacity(residualGraph, path);
 			maxFlow += flow;
 
@@ -83,7 +83,7 @@ maxFlowAndMinCuts Algorithems::DijkstraVriation(Graph& g, int s, int t)
 				residualGraph.decCapacity(path[i], path[i + 1], flow);
 			}
 		}
-	} while (path.size() > 0 && path[0] == s);
+	} while (path.size() > 0 && path[0] == s && path[path.size() - 1] == t);
 
 	maxFlowAndMinCuts res = minCut(residualGraph, s, t);
 	res.maxFlow = maxFlow;
