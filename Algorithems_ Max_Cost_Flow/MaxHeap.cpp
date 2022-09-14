@@ -134,3 +134,16 @@ void MaxHeap::Swap(Vertex& vertex1, Vertex& vertex2)
 	vertex2.Weight = temp.Weight;
 	vertex2.vertexNum = temp.vertexNum;
 }
+
+void MaxHeap::DecreaseKey(int v, int dv)
+{
+	for (int i = 0; i < data.size(); i++) {
+		if (data[i].vertexNum == v)
+		{
+			data[i].Weight = dv;
+			break;
+		}
+	}
+
+	FixHeap(0);
+}

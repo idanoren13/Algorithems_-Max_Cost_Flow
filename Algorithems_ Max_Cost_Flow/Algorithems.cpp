@@ -48,30 +48,43 @@ vector<int> Algorithems::BFS(Graph& g, int s, int t, vector<bool>& _visited)
 	return parents;
 }
 
-maxFlowAndMinCuts Algorithems::DijkstraVriation(Graph g, int s, int t)
-{
-	int n = g.get_n(), flow, maxFlow = 0;
-	int i = t - 1;
-	int parent;
-	Graph residualGraph = g;
-	vector<int> parents(n);
-
-	while (Dijkstra(residualGraph, s, t, parents))
+vector<int> Algorithems::DijkstarPath(Graph& g, int s, int t) {
+	vector<bool> visited(g.get_n(), false);
+	vector<int> path;
+	vector<int> parents = Dijkstra(g, s, t, visited);
+	if (visited[t])
 	{
-		flow = findMaxFlow(residualGraph, parents, t);
-		maxFlow += flow;
-
-		while (parents[i] != -1)
+		int curr = t;
+		while (curr != -1)
 		{
-			parent = parents[i];
-			residualGraph.IncreaseFlow(parent, parents[i], flow);
-			residualGraph.decreaseFlow(parents[i], parent, residualGraph.getEdgeWeight(parent, parents[i]));
-
-			i = parent;
+			path.insert(path.begin(), curr);
+			curr = parents[curr];
 		}
 	}
-	//minCut = findMinCutBFS(Gf, s, t, parent);
-	/*return maxFlow;*/
+
+	return path;
+}
+
+maxFlowAndMinCuts Algorithems::DijkstraVriation(Graph& g, int s, int t)
+{
+	int n = g.get_n(), flow, maxFlow = 0;
+	int parent;
+	Graph residualGraph = g;
+	vector<int> path;
+
+	do
+	{
+		path = DijkstarPath(residualGraph, s, t);
+		if (path.size() > 0 && path[0] == s) {
+			flow = minCapacity(residualGraph, path);
+			maxFlow += flow;
+
+			for (int i = 0; i < path.size() - 1; i++) {
+				residualGraph.decCapacity(path[i], path[i + 1], flow);
+			}
+		}
+	} while (path.size() > 0 && path[0] == s);
+
 	maxFlowAndMinCuts res = minCut(residualGraph, s, t);
 	res.maxFlow = maxFlow;
 
@@ -96,51 +109,55 @@ int Algorithems::findMaxFlow(Graph g, vector<int> path, int t)
 	return findMaxFlow;
 }
 
-bool Algorithems::Dijkstra(Graph& g, int s, int t, vector<int>& parent) // pair = first d[], second: num of vertex
+vector<int> Algorithems::Dijkstra(Graph& g, int s, int t, vector<bool>& visited) // pair = first d[], second: num of vertex
 {
 	int n = g.get_n();
-	int i = s;
-	vector<int> d;
-
+	vector<int> parent(n, -1);
+	vector<int> d(n, INT32_MIN);
 	priority_queue< pair <int, int>> priority_Q;
-	d = init(s, n);
+	d[s] = 0;
+	pair<int, int> p(d[s], s);
 
-	pair<int, int> p(d[i],i);
-
-	priority_Q.push(p);
+	for (int i = 0; i < n; i++) {
+		priority_Q.push(pair<int, int>(d[i], i));
+	}
 
 	while (!priority_Q.empty())
 	{
+
 		pair <int, int> u = priority_Q.top();
 		priority_Q.pop();
-		
-		for (item& v : g.GetAdjList(u.second))
-		{//relax
-			if (d[v.vertex] < d[u.second] + v.capacity)
-			{
-				d[v.vertex] = d[u.second] + (v.capacity);
-				parent[v.vertex] = u.second;
-				p.first = d[v.vertex];
-				p.second = v.vertex;
-				priority_Q.push(p);
+		if (!visited[u.second]) {
+			for (item& v : g.GetAdjList(u.second))
+			{//relax
+				if (d[v.vertex] < (v.capacity) && v.capacity > 0)
+				{
+					d[v.vertex] = (v.capacity);
+					parent[v.vertex] = u.second;
+					/*if (!visited[v.vertex]) {*/
+					p = pair<int, int>(d[v.vertex], v.vertex);
+					priority_Q.push(p);
+					//visited[v.vertex] = true;
+					//}
+				}
 			}
+			visited[u.second] = true;
 		}
 	}
 
-
-	return d[t] != -1;
+	return parent;
 }
 
 vector<int> Algorithems::init(int vertexS, int size)
 {
 	vector<int> d(size);
-	for (int var : d)
+	for (auto var : d)
 	{
 		if (var == vertexS)
 		{
 			d[vertexS] = 0;
 		}
-		else d[var] = -1; //=null
+		else d[var] = INT32_MAX; //=inf
 	}
 
 	return d;
@@ -205,5 +222,7 @@ maxFlowAndMinCuts Algorithems::minCut(Graph& Gf, int s, int t)
 
 	return { 0,S,T };
 }
+
+//use dijkstra to find the max flow path from s to t
 
 

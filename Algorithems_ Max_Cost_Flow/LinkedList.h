@@ -49,23 +49,12 @@ public:
 			head = node;
 			tail = node;
 		}
-		//tail->next = node;
-		tail->next = node;
-		tail = node;
+		else
+		{
+			tail->next = node;
+			tail = node;
+		}
 	}
-
-	//void remove(T data) {
-	//	Node<T>* temp = head;
-	//	Node<T>* prev;
-	//	while (head->data != data)
-	//	{
-	//		prev = head;
-	//		head = head->next;
-	//	}
-
-	//	prev->next = temp->next;
-	//	delete temp;
-	//}
 
 	~LinkedList() {
 		Node<T>* next, * curr = head;

@@ -33,6 +33,7 @@ public:
 	static int Parent(int node);
 	void FixHeap(int node);
 	void Swap(Vertex& vertez1, Vertex& vertex2);
+	void DecreaseKey(int v, int dv);
 
 
 };
