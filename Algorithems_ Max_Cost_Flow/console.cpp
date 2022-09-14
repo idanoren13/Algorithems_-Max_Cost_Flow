@@ -26,9 +26,55 @@ void console::run() {
 
 	Algorithems algo;
 
-	//int a1 = algo.findMaxFlowBFSVariantion(g, s, t).maxFlow;
-	int a2 = algo.DijkstraVriation(g, s, t).maxFlow;
-	cout << a2;
+	maxFlowAndMinCuts bfs = algo.findMaxFlowBFSVariantion(g, s, t);
+	cout << "BFS Method:\n" << "MaxFlow = " << bfs.maxFlow;
+	cout << "\nMin Cut: S = ";
+	for (auto i : bfs.minCutS) {
+		if (i == bfs.minCutS.back())
+		{
+			cout << i << ". ";
+		}
+		else
+		{
+			cout << i << ", ";
+		}
+	}
+	cout << "T = ";
+	for (auto i : bfs.minCutT) {
+		if (i == bfs.minCutT.back())
+		{
+			cout << i;
+		}
+		else
+		{
+			cout << i << ",";
+		}
+	}
+	maxFlowAndMinCuts greedy = algo.DijkstraVriation(g, s, t);
+	cout << "\nGreedy Method:\n" << "MaxFlow = " << bfs.maxFlow;
+	cout << "\nMin Cut: S = ";
+	for (auto i : greedy.minCutS) {
+		if (i == greedy.minCutS.back())
+		{
+			cout << i << ". ";
+		}
+		else
+		{
+			cout << i << ", ";
+		}
+	}
+	cout << "T = ";
+	for (auto i : greedy.minCutT) {
+		if (i == greedy.minCutT.back())
+		{
+			cout << i;
+		}
+		else
+		{
+			cout << i << ",";
+		}
+	}
+	//cout << a2;
 }
 
 /*
