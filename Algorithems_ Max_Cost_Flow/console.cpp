@@ -81,18 +81,49 @@ void console::run() {
 }
 
 /*
+7
+11
 6
-10
+2
+6 4 3
+6 1 10
+4 5 7
+7 4 14
+1 7 8
+1 3 3
+3 5 2
+4 3 6
+7 5 9
+5 2 5
+3 2 6
+
+
+Bug with dijkstra it returns to 7 and not 2
+*/
+
+
+/*
+* 9
+16
+4
 1
-6
-1 2 16
-1 3 13
-2 3 10
-3 2 4
-2 4 12
-4 3 9
-3 5 14
-5 4 7
-5 6 4
-4 6 20
+4 7 6
+4 2 2
+4 5 10
+7 2 9
+7 6 14
+6 2 7
+5 7 15
+5 3 3
+5 8 7
+8 2 20
+8 9 2
+2 1 5
+8 1 2
+9 3 4
+3 9 6
+3 1 6
+
+with BFS wrong max flow, it returns 7 instead of 12
+with Dijkstra no output at all
 */
